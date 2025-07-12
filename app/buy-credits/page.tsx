@@ -46,27 +46,29 @@ function BuyCredits() {
         }
     },[selectedOption])
 
-    const OnPaymentSuccess=async()=>{
-        console.log("InSide Paypal",Options[selectedOption]?.credits+userDetail?.credit);
-        const result=await db.update(Users)
-        .set({
-            credit:Options[selectedOption]?.credits+userDetail?.credit
-        }).where(eq(Users.userEmail,userDetail.userEmail));
-        if(result)
-            {
-                notify("Credit is Added");
-                setUserDetail((prev:any)=>({
-                    ...prev,
-                    ['credit']:Options[selectedOption]?.credits+userDetail?.credit
-                }))
-                router.replace('/dashboard');
-            }
-            else{
-                notifyError('Server Error')
-            }
-       
+    const OnPaymentSuccess = async () => {
+    const selectedCredits = Options.find(opt => opt.id === selectedOption)?.credits || 0;
+    const newCreditTotal = selectedCredits + (userDetail?.credit || 0);
 
+    console.log("Inside Paypal", newCreditTotal);
+
+    const result = await db.update(Users)
+        .set({
+            credit: newCreditTotal
+        }).where(eq(Users.userEmail, userDetail.userEmail));
+
+    if (result) {
+        notify("Credit is Added");
+        setUserDetail((prev: any) => ({
+            ...prev,
+            credit: newCreditTotal
+        }));
+        router.replace('/dashboard');
+    } else {
+        notifyError('Server Error');
     }
+};
+
 
   return (
     <div className='min-h-screen p-10 md:px-20 lg:px-40 text-center'>
