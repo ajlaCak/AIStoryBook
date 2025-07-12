@@ -81,6 +81,7 @@ function CreateStory() {
 
     if (response.ok) {
       notify('Story generated');
+       await UpdateUserCredits();
       router.replace('/view-story/' + data.storyId);
     } else {
       notifyError(data.error || 'Failed to generate story');
