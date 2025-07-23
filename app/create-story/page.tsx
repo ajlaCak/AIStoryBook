@@ -6,7 +6,7 @@ import AgeGroup from './_components/AgeGroup'
 import ImageStyle from './_components/ImageStyle'
 import { Button } from '@heroui/button'
 import { Bounce, toast } from 'react-toastify'
-import { chatSession } from '@/config/gemini'
+
 import { db } from '@/config/db'
 import { StoryData, Users } from '@/config/schema'
 import { Form } from '@heroui/react'
